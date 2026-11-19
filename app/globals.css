@@ -4,12 +4,23 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@theme {
+  --breakpoint-wide: 90rem;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-heading);
+  --font-sans: var(--font-text);
+  --font-mono: var(--font-code);
+  --font-heading: var(--font-text);
+  --color-warn: var(--warn);
+  --color-crit: var(--crit);
+  --color-s1: var(--s1);
+  --color-s2: var(--s2);
+  --color-s3: var(--s3);
+  --color-grid: var(--grid);
+  --color-axis: var(--axis);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -48,73 +59,52 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+/* Claude Style (mr5pm-public/claude-style-obsidian, claude-style.css)를 semantic token으로 옮김.
+   원본은 어두운 화면 하나만 정의하므로 밝은 테마는 두지 않는다. */
 :root {
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.148 0.004 228.8);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.148 0.004 228.8);
-  --primary: oklch(0.841 0.238 128.85);
-  --primary-foreground: oklch(0.405 0.101 131.063);
-  --secondary: oklch(0.967 0.001 286.375);
-  --secondary-foreground: oklch(0.21 0.006 285.885);
-  --muted: oklch(0.963 0.002 197.1);
-  --muted-foreground: oklch(0.56 0.021 213.5);
-  --accent: oklch(0.963 0.002 197.1);
-  --accent-foreground: oklch(0.218 0.008 223.9);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.925 0.005 214.3);
-  --input: oklch(0.925 0.005 214.3);
-  --ring: oklch(0.723 0.014 214.4);
-  --chart-1: oklch(0.871 0.15 154.449);
-  --chart-2: oklch(0.723 0.219 149.579);
-  --chart-3: oklch(0.627 0.194 149.214);
-  --chart-4: oklch(0.527 0.154 150.069);
-  --chart-5: oklch(0.448 0.119 151.328);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.987 0.002 197.1);
-  --sidebar-foreground: oklch(0.148 0.004 228.8);
-  --sidebar-primary: oklch(0.648 0.2 131.684);
-  --sidebar-primary-foreground: oklch(0.986 0.031 120.757);
-  --sidebar-accent: oklch(0.963 0.002 197.1);
-  --sidebar-accent-foreground: oklch(0.218 0.008 223.9);
-  --sidebar-border: oklch(0.925 0.005 214.3);
-  --sidebar-ring: oklch(0.723 0.014 214.4);
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.148 0.004 228.8);
-}
-
-.dark {
-  --background: oklch(0.148 0.004 228.8);
-  --foreground: oklch(0.987 0.002 197.1);
-  --card: oklch(0.218 0.008 223.9);
-  --card-foreground: oklch(0.987 0.002 197.1);
-  --popover: oklch(0.218 0.008 223.9);
-  --popover-foreground: oklch(0.987 0.002 197.1);
-  --primary: oklch(0.768 0.233 130.85);
-  --primary-foreground: oklch(0.405 0.101 131.063);
-  --secondary: oklch(0.274 0.006 286.033);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.275 0.011 216.9);
-  --muted-foreground: oklch(0.723 0.014 214.4);
-  --accent: oklch(0.275 0.011 216.9);
-  --accent-foreground: oklch(0.987 0.002 197.1);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.56 0.021 213.5);
-  --chart-1: oklch(0.871 0.15 154.449);
-  --chart-2: oklch(0.723 0.219 149.579);
-  --chart-3: oklch(0.627 0.194 149.214);
-  --chart-4: oklch(0.527 0.154 150.069);
-  --chart-5: oklch(0.448 0.119 151.328);
-  --sidebar: oklch(0.218 0.008 223.9);
-  --sidebar-foreground: oklch(0.987 0.002 197.1);
-  --sidebar-primary: oklch(0.768 0.233 130.85);
-  --sidebar-primary-foreground: oklch(0.274 0.072 132.109);
-  --sidebar-accent: oklch(0.275 0.011 216.9);
-  --sidebar-accent-foreground: oklch(0.987 0.002 197.1);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.56 0.021 213.5);
+  color-scheme: dark;
+  --background: #1a1a1a;
+  --foreground: #dcdcdc;
+  --card: #1e1e1e;
+  --card-foreground: #dcdcdc;
+  --popover: #262626;
+  --popover-foreground: #e6e6e6;
+  --primary: #c96442;
+  --primary-foreground: #ffffff;
+  --secondary: #2a2a2a;
+  --secondary-foreground: #cccccc;
+  --muted: #262626;
+  --muted-foreground: #888888;
+  --accent: #2a2a2a;
+  --accent-foreground: #e6e6e6;
+  --destructive: #e5604d;
+  --border: #333333;
+  --input: #3a3a3a;
+  --ring: #c96442;
+  --chart-1: #f0b39c;
+  --chart-2: #e08a6a;
+  --chart-3: #c96442;
+  --chart-4: #a44e33;
+  --chart-5: #7d3a26;
+  --radius: 6px;
+  --sidebar: #1e1e1e;
+  --sidebar-foreground: #dcdcdc;
+  --sidebar-primary: #c96442;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #2a2a2a;
+  --sidebar-accent-foreground: #e6e6e6;
+  --sidebar-border: #333333;
+  --sidebar-ring: #c96442;
+  /* data viz (dataviz validate_palette 통과, 배경 #1e1e1e) */
+  --s1: #3987e5;
+  --s2: #d95926;
+  --s3: #199e70;
+  --warn: #fab219;
+  --crit: #d03b3b;
+  --grid: #2b2b2b;
+  --axis: #444444;
+  --font-text: "Bookk Gothic", "북크고딕", "맑은 고딕", "Malgun Gothic", sans-serif;
+  --font-code: "SF Mono", Monaco, Menlo, Consolas, monospace;
 }
 
 @layer base {
@@ -123,6 +113,17 @@
   }
   body {
     @apply bg-background text-foreground;
+    letter-spacing: 0.06em;
+    word-spacing: 0.05em;
+    font-size: 15px;
+  }
+  code, pre, kbd {
+    letter-spacing: 0;
+    word-spacing: 0;
+  }
+  strong, b {
+    font-weight: 500;
+    color: #fff;
   }
   html {
     @apply font-sans;
