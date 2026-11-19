@@ -58,6 +58,62 @@ npm i -g agent-browser
 agent-browser install  # 설치된 Chrome이 없을 때만
 ```
 
+## 사용 랭킹 서버
+
+교육생이 하루 단위 사용량 숫자(토큰, 세션 수, 사용 시간, 도구 호출, 컨텍스트 %)를 보내면 순위를 매기고 서로 비교합니다. 대화 내용, 파일 경로, 프로젝트 이름은 보내지 않습니다.
+
+1. 스키마를 적용합니다. 원격 프로젝트에 다른 앱의 마이그레이션이 있어 `db push` 대신 SQL을 직접 실행하고 이력을 맞춥니다. CLI v3는 원격 변경 전에 확인을 묻습니다.
+
+   ```bash
+   npx supabase link --project-ref earzkbjauzdcanicadlf
+   npx supabase db query --remote -f supabase/migrations/20261119000000_ranking.sql
+   npx supabase db query --remote -f supabase/migrations/20261119052601_auth_profiles_and_ranking_accounts.sql
+   npx supabase migration repair --status applied 20261119000000 20261119052601 --remote
+   ```
+
+2. 서버를 띄웁니다(`bun dev`). Supabase 주소와 publishable key는 [lib/supabase/config.ts](lib/supabase/config.ts)에 기본값이 있고, `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`로 바꿀 수 있습니다.
+3. 이메일과 비밀번호로 가입하거나 로그인한 뒤 `/settings`에서 표시 이름(랭킹 닉네임)을 정하고 전송 토큰을 받습니다.
+4. 각자 PC에서 기록을 보냅니다. 토큰과 서버 주소는 `~/.my-claude-inspector/ranking.json`에 저장되어 다음부터는 옵션 없이 실행하면 됩니다.
+
+```bash
+bun run ranking:submit -- --token mci_... --server http://localhost:3000
+bun run ranking:submit                # 저장된 토큰으로 다시 보내기
+bun run ranking:submit -- --dry-run   # 보낼 숫자만 확인
+```
+
+| API | 설명 |
+|---|---|
+| `POST /api/ranking/submit` | `{ token, days[] }` 토큰 주인 계정의 하루 기록 등록·갱신 |
+| `GET /api/ranking/leaderboard?metric=&period=` | 지표별 순위. `period`는 일 수(0은 전체) |
+| `GET /api/ranking/compare?nicknames=a,b&period=` | 모든 지표의 순위와 평균 비교 |
+| `GET /api/ranking/metrics` | 지표 목록 |
+
+화면은 `/ranking`(로그인하면 내 비교가 자동으로 열림), `/auth/login`, `/auth/sign-up`, `/settings`입니다. 화면 스타일은 [Claude Style](https://github.com/mr5pm-public/claude-style-obsidian)을 semantic token으로 옮긴 어두운 테마입니다.
+1. 스키마를 한 번 적용합니다. 원격 프로젝트에 다른 앱의 마이그레이션이 있어 `db push` 대신 아래처럼 SQL을 직접 실행하고 이력을 맞춥니다(SQL Editor에 붙여 넣어도 됩니다).
+
+   ```bash
+   npx supabase link --project-ref earzkbjauzdcanicadlf
+   npx supabase db query --remote -f supabase/migrations/20261119000000_ranking.sql
+   npx supabase migration repair --status applied 20261119000000 --remote
+   ```
+
+2. 서버를 띄웁니다(`bun dev`). Supabase 주소와 publishable key는 코드에 기본값이 있고, `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`로 바꿀 수 있습니다.
+3. 각자 PC에서 기록을 보냅니다. 처음 보낼 때 만든 비밀값은 `~/.my-claude-inspector/ranking.json`에 저장되고, 같은 닉네임은 그 PC에서만 다시 보낼 수 있습니다.
+
+```bash
+bun run ranking:submit -- --nickname 내닉네임 --server http://localhost:3000
+bun run ranking:submit -- --dry-run   # 보낼 숫자만 확인
+```
+
+| API | 설명 |
+|---|---|
+| `POST /api/ranking/submit` | `{ nickname, secret, days[] }` 등록 또는 갱신 |
+| `GET /api/ranking/leaderboard?metric=&period=` | 지표별 순위. `period`는 일 수(0은 전체) |
+| `GET /api/ranking/compare?nicknames=a,b&period=` | 모든 지표의 순위와 평균 비교 |
+| `GET /api/ranking/metrics` | 지표 목록 |
+
+화면은 `/ranking`입니다.
+
 ## Claude Code 워크플로우
 
 ```mermaid

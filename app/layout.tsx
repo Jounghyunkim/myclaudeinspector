@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Outfit, DM_Sans } from "next/font/google";
 import "./globals.css";
+import { SiteHeader } from "@/components/site-header";
 import { cn } from "@/lib/utils";
 
 const dmSansHeading = DM_Sans({subsets:['latin'],variable:'--font-heading'});
@@ -28,7 +29,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, "font-sans", outfit.variable, dmSansHeading.variable)}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <SiteHeader />
+        {children}
+      </body>
     </html>
   );
 }

@@ -48,5 +48,8 @@ next-env.d.ts
 .claude/settings.local.json
 .claude/launch.json
 
+# supabase cli local state
+/supabase/.temp
+
 # worktree
 .claude/worktrees
