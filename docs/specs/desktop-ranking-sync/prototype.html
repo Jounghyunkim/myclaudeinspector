@@ -237,6 +237,13 @@
   .hbars .bar i { display: block; height: 100%; border-radius: 0 4px 4px 0; background: var(--chart-3); min-width: 2px }
   .hbars .v { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600 }
   .chips { display: flex; flex-wrap: wrap; gap: 4px }
+  .dl { max-width: 1000px; margin: 0 auto; width: 100% }
+  .dl-hero { gap: 14px; padding: 24px }
+  .dl-btn { font-size: 15px; padding: 10px 20px; text-decoration: none }
+  .dl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start }
+  .sh-vp-768 .dl-grid, .sh-vp-390 .dl-grid { grid-template-columns: 1fr }
+  .steps { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 12px }
+  .steps li { display: flex; flex-direction: column; gap: 2px }
   .appnav { display: flex; gap: 4px; border-bottom: 1px solid var(--border); padding-bottom: 8px; flex-wrap: wrap }
   .appnav a { color: var(--muted-foreground); text-decoration: none; padding: 5px 12px; border-radius: var(--radius); font-size: 14px }
   .appnav a:hover { color: var(--foreground); background: var(--muted) }
@@ -920,6 +927,45 @@
       </div>
       <span class="xs muted">저장 위치 <code>~/.my-claude-inspector/snapshots/</code> · 하루 한 번, 그날 처음 불러올 때 남겨요.</span>
     </article>
+  </div>
+  </section>
+
+  <section data-screen="download" data-title="다운로드 (웹)" data-states="배포된 버전 없음">
+  <div class="app dl">
+    <div class="card dl-hero" data-component="Card">
+      <span class="badge outline" style="align-self:flex-start">myclaudeinspector.vercel.app/download</span>
+      <h1>My Claude Inspector 데스크톱 앱</h1>
+      <p class="lead">내 PC의 Claude 상태를 한눈에 보고, 더 잘 쓰는 방법을 추천받는 앱이에요. 설치하면 시작 메뉴에서 열고, 창을 닫아도 트레이에서 정해 둔 주기로 현황을 새로 읽어요.</p>
+      <div class="row" style="gap:12px" data-when="Default">
+        <a class="btn dl-btn" href="#download" data-component="Button">Windows용 다운로드</a>
+        <div class="col" style="gap:2px">
+          <span class="small"><b style="display:inline">v0.3.0</b> · 11월 19일 · 168MB</span>
+          <span class="xs muted">Windows 10·11 (64비트) · <a href="#download">릴리스 노트 ↗</a> · <a href="#download">이전 버전 ↗</a></span>
+        </div>
+      </div>
+      <div class="alert" data-when="배포된 버전 없음" data-component="Alert">
+        <div><b>아직 배포된 버전이 없어요</b>첫 버전이 준비되면 여기에서 내려받을 수 있어요. 그 전에는 저장소에서 <code>bun run dev</code>로 실행해 쓰세요.</div>
+      </div>
+    </div>
+    <div class="dl-grid">
+      <article class="card" data-component="Card">
+        <h2>설치 방법</h2>
+        <ol class="steps">
+          <li><b>내려받은 파일을 실행해요.</b><span class="small muted">파일 이름은 <code>MyClaudeInspector-Setup-0.3.0.exe</code>예요.</span></li>
+          <li><b>"Windows의 PC 보호" 창이 뜨면 "추가 정보 → 실행"을 눌러요.</b><span class="small muted">코드 서명을 하지 않은 앱이라 Windows가 처음 보는 게시자라고 알려 주는 거예요.</span></li>
+          <li><b>설치가 끝나면 시작 메뉴에서 "My Claude Inspector"를 열어요.</b><span class="small muted">처음 열면 프로젝트 경로를 넣고 불러오기를 눌러요. Claude 설치 경로는 보통 그대로 두면 돼요.</span></li>
+          <li><b>지울 때는 Windows 설정 → 앱에서 제거해요.</b><span class="small muted">PC에 남긴 스냅샷 폴더(<code>~/.my-claude-inspector</code>)는 직접 지워야 해요.</span></li>
+        </ol>
+      </article>
+      <article class="card" data-component="Card">
+        <h2>이 앱이 하는 일</h2>
+        <ul class="tips">
+          <li><b>읽기만 해요</b><span class="small muted">내 PC의 <code>~/.claude</code>와 고른 프로젝트 폴더를 읽어서 보여 줘요. Claude 설정은 바꾸지 않아요.</span></li>
+          <li><b>PC 밖으로 보내지 않아요</b><span class="small muted">이 버전은 랭킹 서버를 포함해 어디에도 기록을 올리지 않아요. 로그인 정보·API 키 같은 비밀 값은 아예 읽지 않아요.</span></li>
+          <li><b>창을 닫아도 트레이에서 돌아요</b><span class="small muted">정해 둔 주기(기본 1시간)로 현황을 새로 읽어요. 완전히 끄려면 트레이 메뉴에서 "종료"를 골라요.</span></li>
+        </ul>
+      </article>
+    </div>
   </div>
   </section>
 
