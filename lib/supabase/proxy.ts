@@ -7,6 +7,8 @@ const PROTECTED_PREFIXES = ["/settings"];
 
 /** Refreshes the Supabase session cookies on every request and guards only the protected pages. */
 export async function updateSession(request: NextRequest) {
+  // 데스크톱 앱은 로그인을 쓰지 않으므로 랭킹 서버에 아무 요청도 보내지 않는다
+  if (process.env.MCI_DESKTOP === "1") return NextResponse.next({ request });
   let supabaseResponse = NextResponse.next({ request });
 
   // Create a new client per request.

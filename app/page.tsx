@@ -10,6 +10,9 @@ import { readTools, ToolsCard } from "@/features/tools";
 import { saveTodaySnapshot } from "@/features/trends";
 import { PlanLimitCard, planLimits, TokenCountCard, tokenSeries } from "@/features/usage";
 import { formatDate, formatRelative, formatTime } from "@/lib/claude/time";
+import { isDesktop } from "@/lib/desktop";
+
+import { DesktopStatus } from "@/components/desktop-status";
 
 import { PathForm } from "./_components/path-form";
 import { checkPaths, query, readBase, snapshotOf } from "./_data/inspect";
@@ -54,6 +57,11 @@ export default async function Dashboard({ searchParams }: PageProps<"/">) {
                 위에 Claude 설치 경로(보통 그대로 두면 돼요)와 살펴볼 프로젝트 폴더 경로를 넣고 <b>불러오기</b>를 누르세요. 토큰 사용량, 컨텍스트, 세션, 도구 현황과 오늘의 추천이 여기에 나타나요.
               </EmptyDescription>
             </EmptyHeader>
+            {isDesktop() ? null : (
+              <Link href="/download" className={buttonVariants({ variant: "outline", size: "sm" })}>
+                내 PC에서 쓰려면 데스크톱 앱 다운로드 →
+              </Link>
+            )}
           </Empty>
         )}
       </>
@@ -92,9 +100,13 @@ export default async function Dashboard({ searchParams }: PageProps<"/">) {
               마지막 불러오기 {formatRelative(now, now).replace("오늘 ", "")}
               {snapshot.saved ? " · 오늘 스냅샷 남김" : " · 스냅샷을 남기지 못했어요"}
             </span>
-            <Link href={`/trends${q}`} className={buttonVariants({ variant: "outline", size: "sm" })}>
-              트렌드 보기 →
-            </Link>
+            {isDesktop() ? (
+              <DesktopStatus />
+            ) : (
+              <Link href={`/trends${q}`} className={buttonVariants({ variant: "outline", size: "sm" })}>
+                트렌드 보기 →
+              </Link>
+            )}
           </div>
         </Header>
         <PathForm check={check} />

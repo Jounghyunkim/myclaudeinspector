@@ -2,10 +2,15 @@ import Link from "next/link";
 
 import { LogoutButton } from "@/components/logout-button";
 import { buttonVariants } from "@/components/ui/button";
+import { isDesktop } from "@/lib/desktop";
 import { currentUser } from "@/lib/supabase/server";
+
+import { DesktopNav } from "./desktop-nav";
 
 /** Shared header. Server-rendered from the verified session; auth actions call router.refresh(). */
 export async function SiteHeader() {
+  // 데스크톱 앱에서는 로그인·랭킹 없이 PC 안에서만 쓴다(랭킹 연동은 다음 단계)
+  if (isDesktop()) return <DesktopNav />;
   const user = await currentUser();
   return (
     <header className="border-b border-border">
@@ -16,6 +21,9 @@ export async function SiteHeader() {
           </Link>
           <Link href="/ranking" className={buttonVariants({ variant: "ghost", size: "sm" })}>
             랭킹
+          </Link>
+          <Link href="/download" className={buttonVariants({ variant: "ghost", size: "sm" })}>
+            다운로드
           </Link>
         </nav>
         <nav aria-label="계정" className="flex items-center gap-2">
