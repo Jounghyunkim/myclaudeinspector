@@ -237,6 +237,31 @@
   .hbars .bar i { display: block; height: 100%; border-radius: 0 4px 4px 0; background: var(--chart-3); min-width: 2px }
   .hbars .v { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600 }
   .chips { display: flex; flex-wrap: wrap; gap: 4px }
+  .trsum { grid-template-columns: repeat(5, minmax(0, 1fr)) }
+  .sh-vp-768 .trsum { grid-template-columns: repeat(3, minmax(0, 1fr)) }
+  .sh-vp-768 .trsum .stat:nth-child(4) { border-left: 0 }
+  .sh-vp-768 .trsum .stat:nth-child(n+4) { border-top: 1px solid var(--border) }
+  .trcharts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px }
+  .sh-vp-768 .trcharts, .sh-vp-390 .trcharts { grid-template-columns: 1fr }
+  .chart.trc { height: 220px; display: flex; flex-direction: column; gap: 4px }
+  .chart.trc svg { flex: 1; min-height: 0 }
+  .trtools { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 16px }
+  .sh-vp-768 .trtools, .sh-vp-390 .trtools { grid-template-columns: 1fr }
+  .sparks { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px }
+  .sh-vp-768 .sparks { grid-template-columns: repeat(3, minmax(0, 1fr)) }
+  .sh-vp-390 .sparks { grid-template-columns: repeat(2, minmax(0, 1fr)) }
+  .spark { border: 1px solid var(--border); border-radius: var(--radius); padding: 10px 12px; display: flex; flex-direction: column; gap: 4px; background: var(--background); min-width: 0 }
+  .changelog { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column }
+  .changelog li { display: grid; grid-template-columns: 64px auto minmax(0, 1fr); gap: 8px; align-items: center; padding: 7px 0; border-top: 1px solid var(--border) }
+  .changelog li:first-child { border-top: 0 }
+  .changelog .when { white-space: nowrap }
+  .snaptable { min-width: 760px }
+  .trends > header .tabs { flex-shrink: 0 }
+  .dash-head .badge { white-space: normal }
+  .sh-vp-390 .card-head { flex-wrap: wrap }
+  .sh-vp-390 .card-head > .row { flex-wrap: wrap !important }
+  .trends > header .badge { white-space: normal }
+  .trends > header > * { min-width: 0 }
   .more-link { color: var(--foreground); text-decoration: none; white-space: nowrap }
   .card-head .btn { white-space: nowrap }
   .more-link:hover { text-decoration: underline }
@@ -414,7 +439,7 @@
 
   /* ── Claude Style: typography and elements (from claude-style.css, scoped to the product) ── */
   .sh-stage { background: var(--background); color: var(--foreground) }
-  .app { max-width: 1200px; margin: 0 auto; letter-spacing: 0.06em; word-spacing: 0.05em; font-size: 15px }
+  .app { letter-spacing: 0.06em; word-spacing: 0.05em; font-size: 15px }
   .app h1 { font-size: 1.3em; font-weight: 600 }
   .app h2 { font-size: 1.12em; font-weight: 500 }
   .app h3 { font-size: 1.02em; font-weight: 500 }
@@ -440,6 +465,42 @@
   .app .chipnav.on { color: #fff }
   .app .rec { background: color-mix(in oklch, var(--primary) 10%, var(--card)) }
   .app .tip, .tip { letter-spacing: 0.02em }
+
+  /* ── wide dashboard: fill the screen on large displays (full viewport only) ── */
+  body:not(.sh-vp-390):not(.sh-vp-768) .sh-stage { max-width: 1760px; padding-left: 24px; padding-right: 24px }
+  @media (min-width: 1280px) {
+    body:not(.sh-vp-390):not(.sh-vp-768) .dash-head { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 16px; align-items: center }
+    body:not(.sh-vp-390):not(.sh-vp-768) .dash-head > form { margin: 0 }
+    body:not(.sh-vp-390):not(.sh-vp-768) .dash { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 16px; align-items: stretch }
+    body:not(.sh-vp-390):not(.sh-vp-768) .dash > .a-pair { display: contents }
+    body:not(.sh-vp-390):not(.sh-vp-768) .dash > .a-rec,
+    body:not(.sh-vp-390):not(.sh-vp-768) .dash > .a-pair > * { grid-column: span 4 }
+    body:not(.sh-vp-390):not(.sh-vp-768) .dash > .a-tok { grid-column: span 5 }
+    body:not(.sh-vp-390):not(.sh-vp-768) .dash > .a-sess { grid-column: span 7 }
+    body:not(.sh-vp-390):not(.sh-vp-768) .a-tok .chart { max-height: 620px }
+    body:not(.sh-vp-390):not(.sh-vp-768) .a-tok .tokgrid { grid-template-columns: minmax(0, 1fr); grid-template-rows: 1fr auto }
+    body:not(.sh-vp-390):not(.sh-vp-768) .a-tok .sidestats { flex-direction: row; border-left: 0; padding-left: 0; border-top: 1px solid var(--border); padding-top: 4px; gap: 24px; flex-wrap: wrap }
+    body:not(.sh-vp-390):not(.sh-vp-768) .card-head { flex-wrap: wrap }
+    body:not(.sh-vp-390):not(.sh-vp-768) .card:not(.rec) > .card-head h2 { white-space: nowrap }
+    body:not(.sh-vp-390):not(.sh-vp-768) .dash > .a-tools { grid-column: 1 / -1 }
+    body:not(.sh-vp-390):not(.sh-vp-768) .a-rec pre.prompt { flex: 1 }
+    body:not(.sh-vp-390):not(.sh-vp-768) .a-tok .tokgrid { flex: 1 }
+    body:not(.sh-vp-390):not(.sh-vp-768) .a-tok .tokgrid > :first-child { display: flex; flex-direction: column }
+    body:not(.sh-vp-390):not(.sh-vp-768) .a-tok .chart { flex: 1; min-height: 240px; height: auto }
+    body:not(.sh-vp-390):not(.sh-vp-768) .a-tools .toolgrid { grid-template-columns: repeat(5, minmax(0, 1fr)) }
+    body:not(.sh-vp-390):not(.sh-vp-768) .a-tools .toolgrid > .tool,
+    body:not(.sh-vp-390):not(.sh-vp-768) .a-tools .toolgrid > .tool.half { grid-column: auto }
+    body:not(.sh-vp-390):not(.sh-vp-768) .a-tools .viewer pre.file { max-height: 300px }
+    body:not(.sh-vp-390):not(.sh-vp-768) .a-sess .sesstable { min-width: 700px }
+    body:not(.sh-vp-390):not(.sh-vp-768) .a-sess .sesstable th, body:not(.sh-vp-390):not(.sh-vp-768) .a-sess .sesstable td { padding-left: 8px; padding-right: 8px }
+  }
+  @media (min-width: 1280px) and (max-width: 1439px) {
+    body:not(.sh-vp-390):not(.sh-vp-768) .dash > .a-tok,
+    body:not(.sh-vp-390):not(.sh-vp-768) .dash > .a-sess { grid-column: 1 / -1 }
+    body:not(.sh-vp-390):not(.sh-vp-768) .a-tools .toolgrid { grid-template-columns: repeat(6, minmax(0, 1fr)) }
+    body:not(.sh-vp-390):not(.sh-vp-768) .a-tools .toolgrid > .tool { grid-column: span 2 }
+    body:not(.sh-vp-390):not(.sh-vp-768) .a-tools .toolgrid > .tool.half { grid-column: span 3 }
+  }
 </style>
 
 <header class="sh-bar">
@@ -458,13 +519,13 @@
   <div class="app">
 
     <!-- header + path form -->
-    <header class="col" data-component="new:AppHeader">
+    <header class="col dash-head" data-component="new:AppHeader">
       <div class="row between">
         <div>
           <h1>My Claude Inspector</h1>
           <p class="card-desc">내 Claude가 지금 어떤 상태인지 한눈에 보고, 더 잘 쓰는 방법을 추천받아요. 파일은 읽기만 하고 PC 밖으로 보내지 않아요.</p>
         </div>
-        <span class="badge outline" data-when="Default,한도 값 없음">마지막 불러오기 11월 19일 오후 2:07</span>
+        <div class="row" style="gap:8px"><span class="badge outline" data-when="Default,한도 값 없음">마지막 불러오기 11월 19일 오후 2:07 · 오늘 스냅샷 남김</span><a class="btn outline sm" href="#trends" data-component="Button">트렌드 보기 →</a></div>
       </div>
       <form class="card" data-component="Card" onsubmit="event.preventDefault(); load()">
         <div class="row" style="align-items:flex-end" data-component="FieldGroup">
@@ -493,10 +554,10 @@
       <div><b>프로젝트 폴더를 읽지 못했어요</b><code>D:\workspace_ccedu\myclaudeinpsector</code> 폴더가 없어요. 오타가 없는지 확인해 주세요. Claude 설치 경로는 정상적으로 읽었지만, 프로젝트 정보 없이는 대시보드를 보여 줄 수 없어요.</div>
     </div>
 
-    <div class="col" style="gap:16px" data-when="Default,한도 값 없음">
+    <div class="col dash" style="gap:16px" data-when="Default,한도 값 없음">
 
       <!-- recommendation -->
-      <article class="card rec" data-component="Card">
+      <article class="card rec a-rec" data-component="Card">
         <div class="card-head">
           <div>
             <span class="badge primary">오늘의 추천</span>
@@ -517,7 +578,7 @@
         </div>
       </article>
 
-      <div class="grid2">
+      <div class="grid2 a-pair">
         <!-- plan limits -->
         <article class="card" data-component="Card">
           <div class="card-head">
@@ -583,7 +644,7 @@
       </div>
 
       <!-- token counts -->
-      <article class="card" data-component="Card">
+      <article class="card a-tok" data-component="Card">
         <div class="card-head">
           <div><h2>토큰 수</h2><p class="card-desc">대화 기록에 남은 토큰을 더한 값</p></div>
           <div class="row">
@@ -614,10 +675,10 @@
       </article>
 
       <!-- sessions -->
-      <article class="card" data-component="Card">
+      <article class="card a-sess" data-component="Card">
         <div class="card-head">
           <div><h2>세션</h2><p class="card-desc">지금 열려 있는 Claude 세션과 이 프로젝트의 최근 세션 기록</p></div>
-          <div class="row" style="gap:2px;flex-wrap:nowrap"><a class="btn ghost sm more-link" href="#detail-sessions" data-component="Button">자세히 보기 →</a><button class="btn ghost sm" type="button" onclick="toggleHelp(this)" aria-expanded="false" data-component="Button">이게 뭐예요?</button></div>
+          <div class="row" style="gap:2px;flex-wrap:nowrap"><a class="btn ghost sm more-link" href="#detail-sessions" data-component="Button">자세히 보기 →</a><a class="btn ghost sm more-link" href="#trends" data-component="Button">트렌드 →</a><button class="btn ghost sm" type="button" onclick="toggleHelp(this)" aria-expanded="false" data-component="Button">이게 뭐예요?</button></div>
         </div>
         <dl class="help" hidden data-component="new:HelpBox">
           <dt>이게 뭐예요?</dt><dd>세션은 Claude와 나누는 대화 한 묶음이에요. <code>/clear</code>를 하거나 새 창을 열면 새 세션이 시작돼요. 세션을 여러 개 열어 두면 Claude가 동시에 여러 일을 할 수 있어요.</dd>
@@ -662,10 +723,10 @@
       </article>
 
       <!-- tools: everything on one page -->
-      <article class="card" data-component="Card">
+      <article class="card a-tools" data-component="Card">
         <div class="card-head">
           <div><h2>도구</h2><p class="card-desc">Claude가 쓸 수 있는 도구와 세션을 시작할 때 미리 읽는 파일</p></div>
-          <div class="row" style="gap:2px;flex-wrap:nowrap"><button class="btn ghost sm" type="button" onclick="toggleHelp(this)" aria-expanded="false" data-component="Button">이게 뭐예요?</button></div>
+          <div class="row" style="gap:2px;flex-wrap:nowrap"><a class="btn ghost sm more-link" href="#trends" data-component="Button">트렌드 →</a><button class="btn ghost sm" type="button" onclick="toggleHelp(this)" aria-expanded="false" data-component="Button">이게 뭐예요?</button></div>
         </div>
         <dl class="help" hidden data-component="new:HelpBox">
           <dt>이게 뭐예요?</dt><dd>Claude는 대화만 하는 게 아니라 터미널 명령(CLI), 외부 서비스 연결(MCP), 필요할 때 꺼내 쓰는 매뉴얼(Skill)을 써서 일을 해요. CLAUDE.md와 Memory는 세션을 시작할 때 미리 읽는 안내문이에요.</dd>
@@ -732,6 +793,83 @@
     <div class="tip" id="tip" role="status" hidden></div>
 
     <div class="toast" id="toast" hidden>프롬프트를 복사했어요</div>
+  </div>
+  </section>
+
+  <section data-screen="trends" data-title="트렌드" data-states="스냅샷 1개">
+  <div class="app trends">
+    <nav class="row between" aria-label="트렌드 이동">
+      <a class="btn ghost sm back" href="#dashboard" data-component="Button">← 대시보드로</a>
+    </nav>
+    <header class="row between" style="align-items:flex-end">
+      <div class="col" style="gap:4px">
+        <h1>트렌드</h1>
+        <p class="lead">하루에 한 번 남기는 스냅샷으로 세션과 도구가 어떻게 바뀌어 왔는지 봐요.</p>
+      </div>
+      <div class="row" style="gap:10px">
+        <span class="badge outline" data-when="Default">스냅샷 23개 · 10월 28일부터 · 오늘 오후 2:07에 남김</span>
+        <span class="badge outline" data-when="스냅샷 1개">스냅샷 1개 · 오늘 오후 2:07에 처음 남김</span>
+        <div class="tabs" role="tablist" data-component="Tabs">
+          <button role="tab" aria-selected="true" onclick="trRange(this,14)">최근 14일</button>
+          <button role="tab" aria-selected="false" onclick="trRange(this,30)">최근 30일</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- session trend -->
+    <article class="card" data-component="Card">
+      <div class="card-head">
+        <div><h2>세션 트렌드</h2><p class="card-desc">이 프로젝트의 대화 기록으로 계산해요. 스냅샷을 남기기 전 날짜도 볼 수 있어요.</p></div>
+        <div class="row" style="gap:2px;flex-wrap:nowrap"><a class="btn ghost sm more-link" href="#detail-sessions" data-component="Button">자세히 보기 →</a><button class="btn ghost sm" type="button" onclick="toggleHelp(this)" aria-expanded="false" data-component="Button">이게 뭐예요?</button></div>
+      </div>
+      <dl class="help" hidden data-component="new:HelpBox">
+        <dt>이게 뭐예요?</dt><dd>날마다 세션을 몇 개 열었는지, 컨텍스트가 70%를 넘을 때까지 끌고 간 세션이 얼마나 되는지, 동시에 몇 개를 돌렸는지 보여 줘요. 위쪽 숫자는 고른 기간을 바로 앞 같은 길이의 기간과 비교한 거예요.</dd>
+        <dt>왜 중요해요?</dt><dd>70% 넘은 세션 비율이 줄고 동시에 돌린 세션이 늘면, 일을 잘게 나눠 맡기고 세션을 제때 정리하고 있다는 뜻이에요.</dd>
+      </dl>
+      <div class="toolsum trsum" id="tr-sess-kpi" data-component="new:StatRow"></div>
+      <div class="trcharts">
+        <section class="col" style="gap:6px"><h3>하루 세션 수</h3><div class="chart trc" id="tr-sess" data-component="new:ColumnChart"></div></section>
+        <section class="col" style="gap:6px"><h3>70% 넘은 세션 비율 <span class="xs muted">낮을수록 좋아요</span></h3><div class="chart trc" id="tr-over" data-component="new:LineChart"></div></section>
+        <section class="col" style="gap:6px"><h3>하루 최대 동시 세션</h3><div class="chart trc" id="tr-conc" data-component="new:ColumnChart"></div></section>
+      </div>
+    </article>
+
+    <!-- tool trend -->
+    <article class="card" data-component="Card">
+      <div class="card-head">
+        <div><h2>도구 트렌드</h2><p class="card-desc">매일 남긴 스냅샷끼리 비교해요. 스냅샷을 남기기 시작한 날부터 볼 수 있어요.</p></div>
+        <div class="row" style="gap:2px;flex-wrap:nowrap"><a class="btn ghost sm more-link" href="#detail-skills" data-component="Button">자세히 보기 →</a><button class="btn ghost sm" type="button" onclick="toggleHelp(this)" aria-expanded="false" data-component="Button">이게 뭐예요?</button></div>
+      </div>
+      <dl class="help" hidden data-component="new:HelpBox">
+        <dt>이게 뭐예요?</dt><dd>CLI, MCP, Skill, CLAUDE.md, Memory가 날짜별로 어떻게 바뀌었는지 보여 줘요. 언제 무엇이 추가되거나 빠졌는지는 아래 변화 기록에 남아요.</dd>
+        <dt>왜 중요해요?</dt><dd>설치만 하고 안 쓰는 Skill이 늘거나 CLAUDE.md가 계속 길어지면 정리할 때예요. 쓴 Skill 수가 늘면 Claude에게 맡기는 방식이 넓어지고 있다는 뜻이에요.</dd>
+      </dl>
+      <div class="empty" data-when="스냅샷 1개" data-component="Empty">
+        <h2>아직 비교할 스냅샷이 없어요</h2>
+        <p class="small muted" style="margin:0">오늘 첫 스냅샷을 남겼어요. 내일 이 화면을 다시 열면 오늘과 비교한 변화가 보이기 시작해요.</p>
+      </div>
+      <div class="col" style="gap:16px" data-when="Default">
+        <div class="sparks" id="tr-sparks" data-component="new:SparklineTiles"></div>
+        <div class="trtools">
+          <section class="col" style="gap:6px"><h3>하루 Skill 사용 횟수</h3><div class="chart trc" id="tr-skill" data-component="new:ColumnChart"></div></section>
+          <section class="col" style="gap:6px"><h3>변화 기록 <span class="xs muted">스냅샷 비교</span></h3><ol class="changelog" id="tr-log" data-component="new:ChangeLog"></ol></section>
+        </div>
+      </div>
+    </article>
+
+    <!-- snapshot table -->
+    <article class="card" data-component="Card">
+      <div class="card-head">
+        <div><h2>스냅샷 기록</h2><p class="card-desc">날짜별로 남긴 값이에요. 파일은 이 앱의 폴더에만 저장되고 PC 밖으로 나가지 않아요.</p></div>
+      </div>
+      <div class="tablewrap">
+        <table class="snaptable" data-component="Table">
+          <thead><tr><th>날짜</th><th class="num">세션</th><th class="num">70% 넘음</th><th class="num">동시 최대</th><th class="num">CLI</th><th class="num">MCP</th><th class="num">Skill 설치</th><th class="num">Skill 씀</th><th class="num">CLAUDE.md</th><th class="num">Memory</th></tr></thead>
+          <tbody id="tr-rows"></tbody>
+        </table>
+      </div>
+      <span class="xs muted">저장 위치 <code>~/.my-claude-inspector/snapshots/</code> · 하루 한 번, 그날 처음 불러올 때 남겨요.</span>
+    </article>
   </div>
   </section>
 
@@ -1558,6 +1696,197 @@
     btn.textContent = '복사했어요'; setTimeout(() => btn.textContent = '복사', 1500);
   }
   addEventListener('hashchange', () => scrollTo(0, 0));
+  // ── trends: 30 days ending today (11/19). sessions come from transcripts; tools from daily snapshots (from 10/28) ──
+  const TR_DAYS = (() => { const out = []; const end = new Date(2026, 10, 19); for (let i = 29; i >= 0; i--) { const d = new Date(end); d.setDate(end.getDate() - i); out.push(d); } return out; })();
+  const TR = {
+    sess: [2, 3, 1, 0, 0, 4, 3, 2, 3, 2, 0, 1, 3, 4, 2, 3, 5, 1, 0, 4, 3, 4, 3, 2, 1, 0, 3, 4, 2, 3],
+    over: [1, 2, 0, 0, 0, 2, 1, 1, 1, 1, 0, 0, 1, 2, 1, 1, 2, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1],
+    conc: [1, 2, 1, 0, 0, 2, 1, 1, 2, 1, 0, 1, 1, 2, 1, 2, 3, 1, 0, 2, 2, 3, 2, 1, 1, 0, 2, 2, 1, 2],
+    skillUse: [0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 2, 1, 0, 1, 2, 0, 0, 1, 2, 3, 2, 1, 0, 0, 3, 4, 2, 3],
+  };
+  const SNAP0 = 7; // first snapshot index (10/28)
+  // tool values per day (null before first snapshot)
+  function series(fn) { return TR_DAYS.map((d, i) => i < SNAP0 ? null : fn(i)); }
+  const TOOLS = {
+    cli: series(i => i < 13 ? 4 : 5),
+    mcp: series(i => i < 20 ? 0 : 1),
+    skills: series(i => i < 22 ? 12 : 29),
+    used: series(i => [2, 2, 3, 3, 3, 3, 4, 4, 4, 5, 5, 5, 5, 6, 7, 8, 8, 8, 9, 9, 10, 10, 11][i - SNAP0]),
+    md: series(i => i < 15 ? 30 : i < 26 ? 47 : 59),
+    mem: series(i => i < 24 ? 0 : i < 28 ? 1 : 2),
+  };
+  const TILES = [
+    ['cli', 'CLI 설치', '개'], ['mcp', 'MCP 서버', '개'], ['skills', 'Skill 설치', '개'],
+    ['used', '한 번이라도 쓴 Skill', '개'], ['md', 'CLAUDE.md', '줄'], ['mem', 'Memory 메모', '개'],
+  ];
+  const LOGS = [
+    [29, 'CLAUDE.md', 'AGENTS.md에 12줄이 늘었어요 (47 → 59줄)'],
+    [28, 'Memory', 'commit-language.md 메모가 생겼어요'],
+    [27, 'Skill', 'shape-idea를 처음 썼어요'],
+    [24, 'Memory', 'user-role.md 메모가 생겼어요'],
+    [22, 'Skill', 'Skill 17개가 설치됐어요 (12 → 29개)'],
+    [20, 'MCP', 'playwright 서버를 연결했어요'],
+    [15, 'CLAUDE.md', '프로젝트 CLAUDE.md가 생겼어요 (30 → 47줄)'],
+    [13, 'CLI', 'gh가 설치됐어요'],
+  ];
+  let trDays = 14;
+  const md = d => (d.getMonth() + 1) + '/' + d.getDate();
+  const mdK = d => (d.getMonth() + 1) + '월 ' + d.getDate() + '일';
+  const svgEl = (t, a) => { const e = document.createElementNS('http://www.w3.org/2000/svg', t); for (const k in a) e.setAttribute(k, a[k]); return e; };
+  function trTip(ev, title, rows, anchor) {
+    tip.textContent = ''; tip.append(mk('div', 't', title));
+    rows.forEach(([k, v]) => { const r = mk('div', 'r'); r.style.gridTemplateColumns = '1fr auto'; r.append(mk('span', 'muted', k), mk('b', null, v)); tip.append(r); });
+    tip.hidden = false;
+    const rc = anchor.getBoundingClientRect();
+    const px = ev && ev.clientX != null ? ev.clientX : rc.left + rc.width / 2, py = ev && ev.clientY != null ? ev.clientY : rc.top;
+    tip.style.left = Math.min(innerWidth - tip.offsetWidth - 8, px + 14) + 'px';
+    tip.style.top = Math.max(8, py - tip.offsetHeight - 10) + 'px';
+  }
+  function frame(box, max, fmtY) {
+    box.textContent = '';
+    const W = box.clientWidth || 400, H = box.clientHeight || 200, L = 34, R = 8, T = 16, B = 22;
+    const svg = svgEl('svg', { viewBox: `0 0 ${W} ${H}`, role: 'img' });
+    const y = v => T + (H - T - B) * (1 - v / max);
+    for (let k = 0; k <= 4; k++) {
+      const v = max * k / 4, yy = y(v);
+      svg.append(svgEl('line', { x1: L, x2: W - R, y1: yy, y2: yy, stroke: k ? 'var(--grid)' : 'var(--axis)', 'stroke-width': 1 }));
+      const t = svgEl('text', { x: L - 6, y: yy + 4, 'text-anchor': 'end' }); t.textContent = fmtY(v); svg.append(t);
+    }
+    box.append(svg);
+    return { svg, W, H, L, R, T, B, y };
+  }
+  function xLabels(f, idx, step, xOf) {
+    idx.forEach((i, j) => {
+      if ((idx.length - 1 - j) % step) return;
+      const t = svgEl('text', { x: xOf(j), y: f.H - 6, 'text-anchor': 'middle' }); t.textContent = j === idx.length - 1 ? '오늘' : md(TR_DAYS[i]); f.svg.append(t);
+    });
+  }
+  function drawCols(id, vals, color, unit, label) {
+    const box = document.getElementById(id); if (!box || !box.offsetParent) return;
+    const idx = vals.map((_, i) => i).slice(-trDays);
+    const max = Math.max(4, Math.ceil(Math.max(...idx.map(i => vals[i] || 0)) / 4) * 4);
+    const f = frame(box, max, v => Math.round(v));
+    const band = (f.W - f.L - f.R) / idx.length, bw = Math.min(24, band * 0.62);
+    const xOf = j => f.L + band * j + band / 2;
+    idx.forEach((i, j) => {
+      const v = vals[i] || 0, x = xOf(j) - bw / 2, y0 = f.y(0), y1 = f.y(v), h = y0 - y1, r = Math.min(4, h);
+      if (v > 0) f.svg.append(svgEl('path', { d: `M${x},${y0}V${y1 + r}Q${x},${y1} ${x + r},${y1}H${x + bw - r}Q${x + bw},${y1} ${x + bw},${y1 + r}V${y0}Z`, fill: color }));
+      const hit = svgEl('rect', { x: f.L + band * j, y: f.T, width: band, height: f.H - f.T - f.B, class: 'col-hit', tabindex: 0, 'aria-label': `${mdK(TR_DAYS[i])} ${label} ${v}${unit}` });
+      const show = ev => trTip(ev, mdK(TR_DAYS[i]), [[label, v + unit]], hit);
+      hit.addEventListener('pointermove', show); hit.addEventListener('focus', () => show());
+      hit.addEventListener('pointerleave', () => tip.hidden = true); hit.addEventListener('blur', () => tip.hidden = true);
+      f.svg.append(hit);
+    });
+    const last = idx[idx.length - 1], lv = vals[last] || 0;
+    const t = svgEl('text', { x: xOf(idx.length - 1), y: f.y(lv) - 5, 'text-anchor': 'middle', class: 'lbl' }); t.textContent = lv; f.svg.append(t);
+    xLabels(f, idx, trDays > 14 ? 7 : 3, xOf);
+  }
+  function drawRatio(id) {
+    const box = document.getElementById(id); if (!box || !box.offsetParent) return;
+    const idx = TR.sess.map((_, i) => i).slice(-trDays);
+    const ratio = i => TR.sess[i] ? Math.round(TR.over[i] / TR.sess[i] * 100) : null;
+    const f = frame(box, 100, v => v + '%');
+    const band = (f.W - f.L - f.R) / idx.length, xOf = j => f.L + band * j + band / 2;
+    // 7-day trailing ratio as the line, daily ratio as dots
+    const roll = i => { let s = 0, o = 0; for (let k = Math.max(0, i - 6); k <= i; k++) { s += TR.sess[k]; o += TR.over[k]; } return s ? Math.round(o / s * 100) : null; };
+    let d = '';
+    idx.forEach((i, j) => { const v = roll(i); if (v == null) return; d += (d ? 'L' : 'M') + xOf(j) + ',' + f.y(v); });
+    f.svg.append(svgEl('path', { d, fill: 'none', stroke: 'var(--s2)', 'stroke-width': 2, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }));
+    idx.forEach((i, j) => { const v = ratio(i); if (v == null) return; f.svg.append(svgEl('circle', { cx: xOf(j), cy: f.y(v), r: 4, fill: 'var(--card)', stroke: 'var(--s2)', 'stroke-width': 2 })); });
+    const cross = svgEl('line', { x1: 0, x2: 0, y1: f.T, y2: f.H - f.B, stroke: 'var(--axis)', 'stroke-width': 1, visibility: 'hidden' }); f.svg.append(cross);
+    idx.forEach((i, j) => {
+      const hit = svgEl('rect', { x: f.L + band * j, y: f.T, width: band, height: f.H - f.T - f.B, class: 'col-hit', tabindex: 0, 'aria-label': `${mdK(TR_DAYS[i])} 70% 넘은 세션 ${ratio(i) == null ? '세션 없음' : ratio(i) + '%'}` });
+      const show = ev => { cross.setAttribute('x1', xOf(j)); cross.setAttribute('x2', xOf(j)); cross.setAttribute('visibility', 'visible');
+        trTip(ev, mdK(TR_DAYS[i]), [['그날', ratio(i) == null ? '세션 없음' : `${TR.over[i]} / ${TR.sess[i]}개 (${ratio(i)}%)`], ['최근 7일', roll(i) == null ? '–' : roll(i) + '%']], hit); };
+      const hide = () => { tip.hidden = true; cross.setAttribute('visibility', 'hidden'); };
+      hit.addEventListener('pointermove', show); hit.addEventListener('focus', () => show());
+      hit.addEventListener('pointerleave', hide); hit.addEventListener('blur', hide);
+      f.svg.append(hit);
+    });
+    const lj = idx.length - 1, lv = roll(idx[lj]);
+    const t = svgEl('text', { x: xOf(lj) - 4, y: f.y(lv) - 9, 'text-anchor': 'end', class: 'lbl' }); t.textContent = '최근 7일 ' + lv + '%'; f.svg.append(t);
+    xLabels(f, idx, trDays > 14 ? 7 : 3, xOf);
+    const lg = mk('div', 'row xs muted'); lg.style.gap = '14px';
+    const a = mk('span', 'row'); a.style.gap = '6px'; const ka = mk('i', 'key'); ka.style.cssText = 'height:2px;width:14px;background:var(--s2)'; a.append(ka, '최근 7일 비율');
+    const b = mk('span', 'row'); b.style.gap = '6px'; const kb = mk('i', 'key'); kb.style.cssText = 'width:8px;height:8px;border:2px solid var(--s2);border-radius:99px;background:none'; b.append(kb, '그날 비율');
+    lg.append(a, b); box.append(lg);
+  }
+  function sum(a, from, to) { let s = 0; for (let i = from; i < to; i++) s += a[i] || 0; return s; }
+  function kpi(label, value, delta, note) {
+    const s = mk('div', 'stat'); s.append(mk('span', 'xs muted', label), mk('span', 'kpi sm', value));
+    const d = mk('span', 'xs muted'); if (delta) { const b = mk('b', 'up', delta); d.append(b, ' ' + note); } else d.append(note); s.append(d); return s;
+  }
+  function drawTrendKpis() {
+    const n = trDays, end = 30, from = end - n, pf = from - n;
+    const box = document.getElementById('tr-sess-kpi'); box.textContent = '';
+    const has = pf >= 0;
+    const avg = (sum(TR.sess, from, end) / n), pavg = has ? sum(TR.sess, pf, from) / n : null;
+    const rat = Math.round(sum(TR.over, from, end) / sum(TR.sess, from, end) * 100), prat = has ? Math.round(sum(TR.over, pf, from) / sum(TR.sess, pf, from) * 100) : null;
+    const cmax = Math.max(...TR.conc.slice(from, end)), multi = TR.conc.slice(from, end).filter(v => v >= 2).length, pmulti = has ? TR.conc.slice(pf, from).filter(v => v >= 2).length : null;
+    const sign = v => (v > 0 ? '+' : v < 0 ? '−' : '±') + Math.abs(v);
+    const note = has ? '앞 ' + n + '일보다' : '앞 기간 기록 없음';
+    box.append(
+      kpi('세션', sum(TR.sess, from, end) + '개', null, '하루 평균 ' + avg.toFixed(1) + '개'),
+      kpi('하루 평균 세션', avg.toFixed(1) + '개', has ? sign(+(avg - pavg).toFixed(1)) : null, note),
+      kpi('70% 넘은 세션 비율', rat + '%', has ? sign(rat - prat) + '%p' : null, has ? note + ' · 낮을수록 좋아요' : note),
+      kpi('2개 이상 동시에 돌린 날', multi + '일', has ? sign(multi - pmulti) + '일' : null, note),
+      kpi('최대 동시 세션', cmax + '개', null, '기간 중 가장 많을 때'),
+    );
+  }
+  function sparkline(vals, w, h) {
+    const svg = svgEl('svg', { viewBox: `0 0 ${w} ${h}`, width: '100%', height: h, preserveAspectRatio: 'none', 'aria-hidden': 'true' });
+    const pts = vals.map((v, i) => [i, v]).filter(p => p[1] != null);
+    const lo = Math.min(...pts.map(p => p[1])), hi = Math.max(...pts.map(p => p[1]));
+    const x = i => 2 + (w - 4) * i / (vals.length - 1), y = v => hi === lo ? h / 2 : 3 + (h - 6) * (1 - (v - lo) / (hi - lo));
+    svg.append(svgEl('path', { d: pts.map((p, k) => (k ? 'L' : 'M') + x(p[0]) + ',' + y(p[1])).join(''), fill: 'none', stroke: 'var(--s1)', 'stroke-width': 2, 'vector-effect': 'non-scaling-stroke', 'stroke-linejoin': 'round' }));
+    const lp = pts[pts.length - 1]; svg.append(svgEl('circle', { cx: x(lp[0]), cy: y(lp[1]), r: 3, fill: 'var(--s1)' }));
+    return svg;
+  }
+  function drawSparks() {
+    const box = document.getElementById('tr-sparks'); box.textContent = '';
+    const from = 30 - trDays;
+    TILES.forEach(([k, label, unit]) => {
+      const vals = TOOLS[k].slice(from), first = vals.find(v => v != null), lastV = vals[vals.length - 1];
+      const firstIdx = from + vals.findIndex(v => v != null);
+      const t = mk('div', 'spark');
+      const top = mk('div', 'row between'); top.append(mk('span', 'xs muted', label));
+      const dlt = lastV - first; const dd = mk('span', 'xs ' + (dlt ? 'up' : 'muted'), dlt ? (dlt > 0 ? '+' : '−') + Math.abs(dlt) + unit : '변화 없음'); top.append(dd);
+      const v = mk('span', 'kpi sm'); v.append(String(lastV)); const sm = mk('small', null, unit); v.append(sm);
+      t.append(top, v, sparkline(vals, 160, 34), mk('span', 'xs muted', mdK(TR_DAYS[firstIdx]) + ' 대비'));
+      t.setAttribute('aria-label', `${label} ${lastV}${unit}, ${mdK(TR_DAYS[firstIdx])} ${first}${unit}에서 ${dlt ? (dlt > 0 ? dlt + unit + ' 늘었어요' : -dlt + unit + ' 줄었어요') : '변화 없음'}`);
+      box.append(t);
+    });
+  }
+  function drawLog() {
+    const ol = document.getElementById('tr-log'); ol.textContent = '';
+    const from = 30 - trDays;
+    const rows = LOGS.filter(l => l[0] >= from);
+    if (!rows.length) { ol.append(mk('li', 'xs muted', '이 기간에는 바뀐 것이 없어요.')); return; }
+    rows.forEach(([i, kind, text]) => { const li = mk('li'); li.append(mk('span', 'xs muted when', i === 29 ? '오늘' : mdK(TR_DAYS[i])), mk('span', 'badge', kind), mk('span', 'small', text)); ol.append(li); });
+  }
+  function drawSnapRows() {
+    const tb = document.getElementById('tr-rows'); tb.textContent = '';
+    for (let i = 29; i >= 30 - trDays; i--) {
+      const tr = mk('tr'); const snap = i >= SNAP0;
+      const cells = [i === 29 ? '오늘 (' + md(TR_DAYS[i]) + ')' : mdK(TR_DAYS[i]), TR.sess[i], TR.over[i], TR.conc[i]];
+      ['cli', 'mcp', 'skills', 'used', 'md', 'mem'].forEach(k => cells.push(snap ? TOOLS[k][i] : '–'));
+      cells.forEach((c, j) => tr.append(mk('td', j ? 'num' : 'nowrap', String(c))));
+      tb.append(tr);
+    }
+  }
+  function drawTrends() {
+    if (!document.getElementById('tr-sess') || !document.getElementById('tr-sess').offsetParent) return;
+    drawTrendKpis();
+    drawCols('tr-sess', TR.sess, 'var(--s1)', '개', '세션');
+    drawRatio('tr-over');
+    drawCols('tr-conc', TR.conc, 'var(--s3)', '개', '최대 동시 세션');
+    drawCols('tr-skill', TR.skillUse, 'var(--s1)', '회', 'Skill 사용');
+    drawSparks(); drawLog(); drawSnapRows();
+  }
+  function trRange(btn, n) { selectTab(btn); trDays = n; drawTrends(); }
+  addEventListener('hashchange', () => setTimeout(drawTrends, 0));
+  addEventListener('resize', () => drawTrends());
+  document.getElementById('sh-state').addEventListener('change', () => setTimeout(drawTrends, 0));
   function drawRanked(id, rows) {
     const ol = document.getElementById(id); ol.textContent = '';
     const max = Math.max(...rows.map(r => r[1]));
@@ -1574,6 +1903,7 @@
   drawSkillPicks();
   drawFileViewers();
   drawSessionsCard();
+  setTimeout(drawTrends, 0);
   drawTokens('day');
   addEventListener('resize', () => drawTokens(tokWhich));
   new ResizeObserver(() => drawTokens(tokWhich)).observe(document.getElementById('tok-chart'));
