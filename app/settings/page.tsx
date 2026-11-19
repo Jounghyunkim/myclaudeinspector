@@ -26,7 +26,7 @@ export default async function SettingsPage() {
   const fmt = (t?: string | null) => (t ? new Date(t).toLocaleString("ko-KR") : "–");
 
   return (
-    <main className="mx-auto flex w-full max-w-2xl flex-col gap-6 px-4 py-8 sm:px-6">
+    <div className="mx-auto flex w-full max-w-2xl flex-col gap-6">
       <h1 className="font-heading text-2xl font-semibold tracking-tight">설정</h1>
 
       <Card>
@@ -55,6 +55,6 @@ export default async function SettingsPage() {
           <SubmitTokenPanel server={server} />
         </CardContent>
       </Card>
-    </main>
+    </div>
   );
 }

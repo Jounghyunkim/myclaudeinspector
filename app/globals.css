@@ -4,12 +4,23 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@theme {
+  --breakpoint-wide: 90rem;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
-  --font-mono: var(--font-claude-mono);
-  --font-heading: var(--font-heading);
+  --font-sans: var(--font-text);
+  --font-mono: var(--font-code);
+  --font-heading: var(--font-text);
+  --color-warn: var(--warn);
+  --color-crit: var(--crit);
+  --color-s1: var(--s1);
+  --color-s2: var(--s2);
+  --color-s3: var(--s3);
+  --color-grid: var(--grid);
+  --color-axis: var(--axis);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -48,86 +59,73 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-/*
- * Claude Style (https://github.com/mr5pm-public/claude-style-obsidian, claude-style.css)
- * translated to semantic tokens. The source defines a dark theme only, so there is no light theme.
- */
+/* Claude Style (mr5pm-public/claude-style-obsidian, claude-style.css)를 semantic token으로 옮김.
+   원본은 어두운 화면 하나만 정의하므로 밝은 테마는 두지 않는다. */
 :root {
-  --font-sans: "Bookk Gothic", "북크고딕", "맑은 고딕", "Malgun Gothic", sans-serif;
-  --font-heading: var(--font-sans);
-  --font-claude-mono: "SF Mono", Monaco, Menlo, Consolas, monospace;
-
+  color-scheme: dark;
   --background: #1a1a1a;
   --foreground: #dcdcdc;
   --card: #1e1e1e;
   --card-foreground: #dcdcdc;
-  --popover: #1e1e1e;
-  --popover-foreground: #dcdcdc;
+  --popover: #262626;
+  --popover-foreground: #e6e6e6;
   --primary: #c96442;
   --primary-foreground: #ffffff;
   --secondary: #2a2a2a;
-  --secondary-foreground: #dcdcdc;
+  --secondary-foreground: #cccccc;
   --muted: #262626;
-  --muted-foreground: #999999;
+  --muted-foreground: #888888;
   --accent: #2a2a2a;
-  --accent-foreground: #ffffff;
-  --destructive: #e5484d;
+  --accent-foreground: #e6e6e6;
+  --destructive: #e5604d;
   --border: #333333;
-  --input: #333333;
+  --input: #3a3a3a;
   --ring: #c96442;
-  --chart-1: #3987e5;
-  --chart-2: #d95926;
-  --chart-3: #199e70;
-  --chart-4: #a78bfa;
-  --chart-5: #888888;
-  --radius: 0.5rem;
+  --chart-1: #f0b39c;
+  --chart-2: #e08a6a;
+  --chart-3: #c96442;
+  --chart-4: #a44e33;
+  --chart-5: #7d3a26;
+  --radius: 6px;
   --sidebar: #1e1e1e;
   --sidebar-foreground: #dcdcdc;
   --sidebar-primary: #c96442;
   --sidebar-primary-foreground: #ffffff;
   --sidebar-accent: #2a2a2a;
-  --sidebar-accent-foreground: #ffffff;
+  --sidebar-accent-foreground: #e6e6e6;
   --sidebar-border: #333333;
   --sidebar-ring: #c96442;
-  color-scheme: dark;
+  /* data viz (dataviz validate_palette 통과, 배경 #1e1e1e) */
+  --s1: #3987e5;
+  --s2: #d95926;
+  --s3: #199e70;
+  --warn: #fab219;
+  --crit: #d03b3b;
+  --grid: #2b2b2b;
+  --axis: #444444;
+  --font-text: "Bookk Gothic", "북크고딕", "맑은 고딕", "Malgun Gothic", sans-serif;
+  --font-code: "SF Mono", Monaco, Menlo, Consolas, monospace;
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
-  html {
-    @apply font-sans;
-  }
   body {
     @apply bg-background text-foreground;
     letter-spacing: 0.06em;
+    word-spacing: 0.05em;
+    font-size: 15px;
   }
-  code,
-  pre,
-  kbd {
-    letter-spacing: normal;
+  code, pre, kbd {
+    letter-spacing: 0;
+    word-spacing: 0;
   }
-  :not(pre) > code {
-    @apply rounded bg-white/8 px-1 py-0.5 font-mono text-[0.9em] text-[#bbb];
+  strong, b {
+    font-weight: 500;
+    color: #fff;
   }
-  strong {
-    @apply font-medium text-white;
-  }
-  /* explanatory text reads with the source's generous line height */
-  [data-slot="card-description"],
-  [data-slot="empty-description"] {
-    line-height: 2;
-  }
-  /* tables: no outer border, light header rule, dark row rules */
-  [data-slot="table-head"] {
-    @apply font-normal text-[#bbb];
-    border-bottom: 1px solid #888;
-  }
-  [data-slot="table-cell"] {
-    @apply text-[#ccc];
-  }
-  [data-slot="table-body"] [data-slot="table-row"] {
-    border-bottom: 1px solid #333;
+  html {
+    @apply font-sans;
   }
 }
