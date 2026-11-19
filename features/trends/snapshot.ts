@@ -38,9 +38,9 @@ export async function saveTodaySnapshot(
   dir = snapshotDir(projectPath),
 ): Promise<{ saved: boolean }> {
   try {
-    await mkdir(dir, { recursive: true });
+    await mkdir(/*turbopackIgnore: true*/ dir, { recursive: true });
     const snap: Snapshot = { version: 1, date: dayKey(now), savedAt: now, project: projectPath, ...input };
-    await writeFile(path.join(dir, `${snap.date}.json`), JSON.stringify(snap, null, 2), "utf8");
+    await writeFile(/*turbopackIgnore: true*/ path.join(dir, `${snap.date}.json`), JSON.stringify(snap, null, 2), "utf8");
     return { saved: true };
   } catch {
     return { saved: false };
@@ -50,14 +50,14 @@ export async function saveTodaySnapshot(
 export async function listSnapshots(projectPath: string, dir = snapshotDir(projectPath)): Promise<Snapshot[]> {
   let names: string[];
   try {
-    names = (await readdir(dir)).filter((n) => /^\d{4}-\d{2}-\d{2}\.json$/.test(n));
+    names = (await readdir(/*turbopackIgnore: true*/ dir)).filter((n) => /^\d{4}-\d{2}-\d{2}\.json$/.test(n));
   } catch {
     return [];
   }
   const out: Snapshot[] = [];
   for (const n of names.sort()) {
     try {
-      const s = JSON.parse(await readFile(path.join(dir, n), "utf8")) as Snapshot;
+      const s = JSON.parse(await readFile(/*turbopackIgnore: true*/ path.join(dir, n), "utf8")) as Snapshot;
       if (s.version === 1) out.push(s);
     } catch {
       // 읽지 못한 스냅샷은 건너뛴다

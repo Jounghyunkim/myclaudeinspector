@@ -11,7 +11,10 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
-    "ranking:submit": "bun scripts/ranking-submit.ts"
+    "ranking:submit": "bun scripts/ranking-submit.ts",
+    "desktop:dev": "electron .",
+    "desktop:build": "bun run desktop:server && node node_modules/electron-builder/cli.js --win nsis --x64",
+    "desktop:server": "bun scripts/build-desktop-server.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",
@@ -36,6 +39,8 @@
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-react": "^6.2.1",
+    "electron": "^45.4.1",
+    "electron-builder": "^26.18.0",
     "eslint": "^10.14.0",
     "eslint-config-next": "16.4.5",
     "jsdom": "^31.0.0",
@@ -50,6 +55,10 @@
   ],
   "trustedDependencies": [
     "sharp",
-    "unrs-resolver"
-  ]
+    "unrs-resolver",
+    "electron"
+  ],
+  "main": "desktop/main.cjs",
+  "description": "내 Claude 상태를 한눈에 보는 데스크톱 앱",
+  "author": "Jounghyunkim"
 }

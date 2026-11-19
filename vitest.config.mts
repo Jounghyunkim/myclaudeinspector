@@ -17,6 +17,8 @@ export default defineConfig({
       // .claude/worktrees는 이 앱의 중복 체크아웃이다.
       ".claude/**",
       ".agents/**",
+      ".next-desktop/**",
+      "dist-desktop/**",
     ],
   },
 });

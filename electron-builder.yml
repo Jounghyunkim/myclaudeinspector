@@ -1,0 +1,32 @@
+appId: com.jounghyunkim.myclaudeinspector
+productName: My Claude Inspector
+artifactName: MyClaudeInspector-Setup-${version}.${ext}
+directories:
+  output: dist-desktop
+files:
+  - desktop/**
+  - "!desktop/**/*.test.*"
+  - "!desktop/prepare.cjs"
+  - package.json
+  - "!**/node_modules/**"
+extraResources:
+  - from: .next-desktop/standalone
+    to: app-server
+    filter:
+      - "**/*"
+      - ".next-desktop/**/*"
+      - "!.claude/**"
+win:
+  target:
+    - target: nsis
+      arch: [x64]
+  icon: desktop/icon.png
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createStartMenuShortcut: true
+  createDesktopShortcut: true
+  shortcutName: My Claude Inspector
+publish: null
+npmRebuild: false

@@ -6,6 +6,8 @@ const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
   // Override default ignores of eslint-config-next.
+  // Electron main/preload run as CommonJS.
+  { files: ["desktop/**/*.cjs"], rules: { "@typescript-eslint/no-require-imports": "off" } },
   globalIgnores([
     // Default ignores of eslint-config-next:
     ".next/**",
@@ -16,6 +18,9 @@ const eslintConfig = defineConfig([
     // .claude/worktrees holds duplicate checkouts of this app.
     ".claude/**",
     ".agents/**",
+    // Desktop app build output.
+    ".next-desktop/**",
+    "dist-desktop/**",
   ]),
 ]);
 

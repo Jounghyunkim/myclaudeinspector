@@ -1,0 +1,31 @@
+# v로 시작하는 태그를 올리면 Windows 설치 파일을 만들어 GitHub Releases에 올린다.
+# 다운로드 페이지(/download)는 여기 올라간 최신 릴리스를 가리킨다.
+name: desktop-release
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install --frozen-lockfile
+      - run: node node_modules/electron/install.js
+      - run: bun run desktop:server
+      - run: node node_modules/electron-builder/cli.js --win nsis --x64
+      - name: Upload to GitHub Releases
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+          FILE=$(ls dist-desktop/MyClaudeInspector-Setup-*.exe)
+          gh release view "$TAG" >/dev/null 2>&1 || gh release create "$TAG" --title "My Claude Inspector $TAG" --notes "Windows 10·11 (64비트)용 설치 파일입니다. 내려받기: https://myclaudeinspector.vercel.app/download"
+          gh release upload "$TAG" "$FILE" --clobber
