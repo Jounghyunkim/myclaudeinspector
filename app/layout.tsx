@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import "./globals.css";
+import { SiteHeader } from "@/components/site-header";
 
 export const metadata: Metadata = {
   title: "My Claude Inspector",
@@ -11,6 +12,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="ko" className="h-full antialiased">
       <body className="flex min-h-full flex-col">
+        <SiteHeader />
         <main className="mx-auto flex w-full max-w-[1760px] flex-1 flex-col gap-4 px-4 py-6 sm:px-6">{children}</main>
       </body>
     </html>
