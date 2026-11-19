@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { addSession, addSessionDays, localDay } from "./collect";
 import { findMetric, type DailyUsage, type ParticipantStats } from "./metrics";
 import { compare, rankBy } from "./rank";
-import { parseSubmit } from "./validate";
+import { bearerToken, parseSubmit } from "./validate";
 
 function stats(nickname: string, patch: Partial<ParticipantStats>): ParticipantStats {
   return {
@@ -75,6 +75,15 @@ describe("parseSubmit", () => {
     const ok = parseSubmit({ token: "mci_abc", days: [{ day: "2026-11-19", sessions: 2 }] });
     expect(ok.ok && ok.value.days[0].sessions).toBe(2);
     expect(ok.ok && ok.value.days[0].toolCalls).toBe(0);
+  });
+});
+
+describe("bearerToken", () => {
+  it("reads only an mci_ submit token from a Bearer header", () => {
+    expect(bearerToken("Bearer mci_abc123")).toBe("mci_abc123");
+    expect(bearerToken("bearer mci_abc123")).toBe("mci_abc123");
+    expect(bearerToken("Bearer eyJhbGciOi")).toBeNull();
+    expect(bearerToken(null)).toBeNull();
   });
 });
 

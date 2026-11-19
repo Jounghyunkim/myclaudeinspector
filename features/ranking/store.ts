@@ -42,7 +42,17 @@ export async function submitUsage(token: string, days: DailyUsage[]): Promise<st
   return rpc<string>("ranking_submit_with_token", { p_token: token, p_days: days });
 }
 
-const camel = (s: string) => s.replace(/_([a-z0-9])/g, (_, c: string) => c.toUpperCase());
+/** Days of records the token owner currently has in the ranking. */
+export async function myRecordDays(token: string): Promise<number> {
+  return rpc<number>("ranking_my_record_days", { p_token: token });
+}
+
+/** Deletes every ranking record of the token owner. The account and token stay. Returns deleted days. */
+export async function deleteMyRecords(token: string): Promise<number> {
+  return rpc<number>("ranking_delete_my_records", { p_token: token });
+}
+
+const camel =(s: string) => s.replace(/_([a-z0-9])/g, (_, c: string) => c.toUpperCase());
 const TEXT_COLUMNS = new Set(["nickname", "last_submitted_at"]);
 
 /** Totals per participant for the last `days` days (0 = all time). */

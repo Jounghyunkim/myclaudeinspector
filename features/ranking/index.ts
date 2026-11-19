@@ -10,6 +10,6 @@ export {
   type ParticipantStats,
 } from "./metrics";
 export { compare, rankBy, type MetricComparison, type RankEntry } from "./rank";
-export { parsePeriod, parseSubmit, type SubmitInput } from "./validate";
-export { RankingStoreError, periodStats, submitUsage } from "./store";
+export { bearerToken, parsePeriod, parseSubmit, type SubmitInput } from "./validate";
+export { RankingStoreError, deleteMyRecords, myRecordDays, periodStats, submitUsage } from "./store";
 export { collectDailyUsage } from "./collect";

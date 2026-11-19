@@ -68,7 +68,8 @@ agent-browser install  # 설치된 Chrome이 없을 때만
    npx supabase link --project-ref earzkbjauzdcanicadlf
    npx supabase db query --remote -f supabase/migrations/20261119000000_ranking.sql
    npx supabase db query --remote -f supabase/migrations/20261119052601_auth_profiles_and_ranking_accounts.sql
-   npx supabase migration repair --status applied 20261119000000 20261119052601 --remote
+   npx supabase db query --remote -f supabase/migrations/20261119055515_ranking_delete_my_records.sql
+   npx supabase migration repair --status applied 20261119000000 20261119052601 20261119055515 --remote
    ```
 
 2. 서버를 띄웁니다(`bun dev`). Supabase 주소와 publishable key는 [lib/supabase/config.ts](lib/supabase/config.ts)에 기본값이 있고, `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`로 바꿀 수 있습니다.
@@ -87,6 +88,8 @@ bun run ranking:submit -- --dry-run   # 보낼 숫자만 확인
 | `GET /api/ranking/leaderboard?metric=&period=` | 지표별 순위. `period`는 일 수(0은 전체) |
 | `GET /api/ranking/compare?nicknames=a,b&period=` | 모든 지표의 순위와 평균 비교 |
 | `GET /api/ranking/metrics` | 지표 목록 |
+| `GET /api/ranking/records` | `Authorization: Bearer mci_...` 토큰 주인의 랭킹 기록 날짜 수 |
+| `DELETE /api/ranking/records` | `Authorization: Bearer mci_...` 토큰 주인의 랭킹 기록 전체 삭제. 계정과 토큰은 남고 다음 업로드부터 다시 쌓임 |
 
 화면은 `/ranking`(로그인하면 내 비교가 자동으로 열림), `/auth/login`, `/auth/sign-up`, `/settings`입니다. 화면 스타일은 [Claude Style](https://github.com/mr5pm-public/claude-style-obsidian)을 semantic token으로 옮긴 어두운 테마입니다.
 1. 스키마를 한 번 적용합니다. 원격 프로젝트에 다른 앱의 마이그레이션이 있어 `db push` 대신 아래처럼 SQL을 직접 실행하고 이력을 맞춥니다(SQL Editor에 붙여 넣어도 됩니다).
