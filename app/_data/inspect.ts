@@ -3,7 +3,7 @@ import path from "node:path";
 
 import type { SnapshotInput } from "@/features/trends";
 import type { ToolsView } from "@/features/tools";
-import { defaultClaudeDir, readClaudeJson, scanProjectSessions } from "@/lib/claude";
+import { defaultClaudeDir, readClaudeJson, readLiveLimits, scanProjectSessions } from "@/lib/claude";
 
 export type Paths = { claude: string; project: string };
 export type PathCheck =
@@ -41,8 +41,14 @@ export function query(paths: Paths): string {
 
 /** 여러 화면이 같이 쓰는 기본 읽기 */
 export async function readBase(paths: Paths) {
-  const [claudeJson, sessions] = await Promise.all([readClaudeJson(paths.claude, paths.project), scanProjectSessions(paths.claude, paths.project)]);
-  return { claudeJson, sessions, now: Date.now() };
+  const [cached, sessions, live] = await Promise.all([
+    readClaudeJson(paths.claude, paths.project),
+    scanProjectSessions(paths.claude, paths.project),
+    readLiveLimits(paths.claude),
+  ]);
+  // Prefer the live API value; fall back to the cached value Claude Code last stored
+  const claudeJson = live.ok ? { ...cached, limits: live.limits } : cached;
+  return { claudeJson, sessions, liveIssue: live.ok ? null : live.issue, now: Date.now() };
 }
 
 /** 도구 현황에서 스냅샷에 담을 숫자와 이름만 고른다 */

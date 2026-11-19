@@ -1,15 +1,23 @@
-import type { ClaudeJsonView, SessionSummary } from "@/lib/claude";
+import type { ClaudeJsonView, LimitSource, LiveIssue, SessionSummary } from "@/lib/claude";
 import { dayKey, formatDate, startOfDay } from "@/lib/claude/time";
 
 export const HIGH_LIMIT = 80;
 
 export type LimitView = { pct: number; resetsAt: number | null; expired: boolean };
 export type PlanLimits =
-  | { state: "none" }
-  | { state: "ok"; fiveHour: LimitView | null; sevenDay: LimitView | null; fetchedAt: number | null };
+  | { state: "none"; liveIssue: LiveIssue | null }
+  | {
+      state: "ok";
+      fiveHour: LimitView | null;
+      sevenDay: LimitView | null;
+      fetchedAt: number | null;
+      source: LimitSource;
+      /** Why the live fetch failed, when the shown value comes from the cache */
+      liveIssue: LiveIssue | null;
+    };
 
-export function planLimits(limits: ClaudeJsonView["limits"], now: number): PlanLimits {
-  if (!limits || (!limits.fiveHour && !limits.sevenDay)) return { state: "none" };
+export function planLimits(limits: ClaudeJsonView["limits"], now: number, liveIssue: LiveIssue | null = null): PlanLimits {
+  if (!limits || (!limits.fiveHour && !limits.sevenDay)) return { state: "none", liveIssue };
   const conv = (w: { utilization: number; resetsAt: string | null } | null): LimitView | null => {
     if (!w) return null;
     const resetsAt = w.resetsAt ? Date.parse(w.resetsAt) : null;
@@ -17,7 +25,14 @@ export function planLimits(limits: ClaudeJsonView["limits"], now: number): PlanL
     // 초기화 시각이 지났다면 받아 둔 값은 이미 0으로 돌아간 상태다
     return { pct: expired ? 0 : Math.round(w.utilization), resetsAt, expired };
   };
-  return { state: "ok", fiveHour: conv(limits.fiveHour), sevenDay: conv(limits.sevenDay), fetchedAt: limits.fetchedAt };
+  return {
+    state: "ok",
+    fiveHour: conv(limits.fiveHour),
+    sevenDay: conv(limits.sevenDay),
+    fetchedAt: limits.fetchedAt,
+    source: limits.source,
+    liveIssue: limits.source === "live" ? null : liveIssue,
+  };
 }
 
 export type TokenBucket = { key: string; label: string; input: number; output: number; cacheWrite: number; cacheRead: number };
