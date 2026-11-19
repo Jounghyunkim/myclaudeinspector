@@ -69,9 +69,9 @@ export default async function Dashboard({ searchParams }: PageProps<"/">) {
   }
 
   const { paths } = check;
-  const { claudeJson, sessions, now } = await readBase(paths);
+  const { claudeJson, sessions, liveIssue, now } = await readBase(paths);
   const [live, tools] = await Promise.all([readLiveSessions(paths.claude), readTools(paths.claude, paths.project, claudeJson, sessions)]);
-  const limits = planLimits(claudeJson.limits, now);
+  const limits = planLimits(claudeJson.limits, now, liveIssue);
   const tokens = tokenSeries(sessions, now);
   const contexts = recentContext(sessions);
   const sessionsView = buildSessionsView(sessions, live, now);

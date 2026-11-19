@@ -14,8 +14,8 @@ export const dynamic = "force-dynamic";
 type Mine = { label: string; value: string; note: string }[];
 
 async function mineFor(slug: TopicSlug, paths: Paths) {
-  const { claudeJson, sessions, now } = await readBase(paths);
-  const limits = planLimits(claudeJson.limits, now);
+  const { claudeJson, sessions, liveIssue, now } = await readBase(paths);
+  const limits = planLimits(claudeJson.limits, now, liveIssue);
   const lim = { fiveHour: limits.state === "ok" ? limits.fiveHour?.pct ?? null : null, sevenDay: limits.state === "ok" ? limits.sevenDay?.pct ?? null : null };
   const readAt = `${formatRelative(now, now)}`;
   let mine: Mine = [];
