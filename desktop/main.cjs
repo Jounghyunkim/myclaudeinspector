@@ -77,9 +77,10 @@ async function startServer() {
   const dir = path.join(process.resourcesPath, "app-server");
   const port = await freePort();
   // Electron에 들어 있는 Node로 Next.js standalone 서버를 실행한다
+  // NODE_USE_SYSTEM_CA: 회사망처럼 HTTPS를 검사하는 환경에서도 사용량 API에 붙도록 Windows 인증서 저장소를 믿게 한다
   server = spawn(process.execPath, [path.join(dir, "server.js")], {
     cwd: dir,
-    env: { ...process.env, NODE_PATH: path.join(dir, "server_modules"), ELECTRON_RUN_AS_NODE: "1", NODE_ENV: "production", PORT: String(port), HOSTNAME: "127.0.0.1", MCI_DESKTOP: "1" },
+    env: { ...process.env, NODE_PATH: path.join(dir, "server_modules"), ELECTRON_RUN_AS_NODE: "1", NODE_ENV: "production", NODE_USE_SYSTEM_CA: "1", PORT: String(port), HOSTNAME: "127.0.0.1", MCI_DESKTOP: "1" },
     stdio: "ignore",
     windowsHide: true,
   });
