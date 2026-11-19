@@ -50,6 +50,12 @@ export function parseSubmit(body: unknown): { ok: true; value: SubmitInput } | {
   return { ok: true, value: { token: b.token, days } };
 }
 
+/** Submit token from an `Authorization: Bearer mci_...` header, or null. */
+export function bearerToken(header: string | null): string | null {
+  const m = header?.match(/^Bearer\s+(mci_\S+)$/i);
+  return m ? m[1] : null;
+}
+
 export function parsePeriod(raw: string | null | undefined, fallback: number): number {
   const n = Number(raw);
   return raw != null && raw !== "" && Number.isInteger(n) && n >= 0 && n <= 3650 ? n : fallback;
